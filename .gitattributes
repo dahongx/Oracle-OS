@@ -1,0 +1,72 @@
+# ============================================================================
+# Oracle OS — .gitattributes
+#
+# 两个目的:
+#   1) 把二进制文件标出来,避免 git 尝试 diff/merge 它们(PDF/PNG/RAR 被当文本
+#      处理时会产生几万行乱码 diff,还可能在 merge 时被破坏)
+#   2) 保护厂家示例代码的原始行尾。Keil 的 .uvproj/.uvopt/.A51/.M51 对行尾和
+#      编码敏感,让 git 自动转换 CRLF/LF 有可能让 Keil 打不开工程。
+#
+# 注:本文件和 .gitignore 一样是"相对自身所在目录"生效的,所以整个项目文件夹
+#    可以直接搬进 monorepo 的子目录,规则不会失效。
+# ============================================================================
+
+# ---- 默认:让 git 自行判断文本/二进制,文本在仓库里统一存 LF ----
+* text=auto eol=lf
+
+# ---- Windows 脚本:必须 CRLF,否则某些 cmd/PowerShell 环境会出怪问题 ----
+*.bat  text eol=crlf
+*.cmd  text eol=crlf
+*.ps1  text eol=crlf
+
+# ---- 文档/图片/数据手册:纯二进制,不做任何转换 ----
+*.pdf  binary
+*.PDF  binary
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.rar  binary
+*.zip  binary
+*.7z   binary
+*.chm  binary
+*.ttf  binary
+*.otf  binary
+*.woff binary
+*.woff2 binary
+
+# ---- 固件产物 / 编译中间物(即使被误加也不做转换) ----
+*.bin  binary
+*.elf  binary
+*.hex  binary
+*.map  binary
+*.o    binary
+*.obj  binary
+*.a    binary
+*.lib  binary
+*.dll  binary
+*.exe  binary
+*.bpl  binary
+*.dat  binary
+
+# ---- 厂家示例代码:整目录保持原样,不碰行尾 ----
+# 这些是硬件开发的依据(初始化序列/时序参数都在里面),
+# 宁可 diff 难看一点,也不要因为行尾转换让厂家工程打不开。
+hardware/doc/屏幕/_extracted/**  -text
+思迈微1.54寸-12P插接技术手册/**    -text
+hardware/bringup-tests/**        -text
+
+# ---- Keil 工程文件:即使在别处出现也一律不转换 ----
+*.uvproj  -text
+*.uvopt   -text
+*.uvgui.* -text
+*.A51     -text
+*.M51     -text
+*.PTL     -text
+*.plg     -text
+
+# ---- 生成的大体积 C 数据文件:标成 linguist-generated,
+#      GitHub 的 PR diff 会默认折叠它们,也不计入语言统计 ----
+firmware/esp32s3_knob_idf/main/ui/cat_sprites.c    linguist-generated=true
+firmware/esp32s3_knob_idf/main/ui/fonts/han_16.c   linguist-generated=true
+firmware/esp32s3_knob_idf/main/ui/fonts/han_24.c   linguist-generated=true

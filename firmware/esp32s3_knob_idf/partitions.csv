@@ -1,0 +1,6 @@
+# 自定义分区表 —— 8MB Flash (N8R2),固件本身较大(LVGL + espp 多组件),
+# 默认单 app 分区只有 1MB 装不下,这里放大到 3MB,并留一小块 NVS 分区给以后存配置用。
+# Name,   Type, SubType, Offset,  Size, Flags
+nvs,      data, nvs,     0x9000,  0x6000,
+phy_init, data, phy,     0xf000,  0x1000,
+factory,  app,  factory, 0x10000, 3M,

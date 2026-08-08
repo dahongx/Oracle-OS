@@ -1,0 +1,107 @@
+{
+  "product": "Oracle OS / Clover Cat Edition",
+  "target_display": {
+    "resolution": "240x240",
+    "orientation": "square, complete rectangle",
+    "rendering": "RGB565",
+    "recommended_fps": 10,
+    "maximum_fps": 15
+  },
+  "visual_rules": {
+    "background": "#F7F6F1",
+    "primary_ink": "#625B50",
+    "secondary_ink": "#9A9388",
+    "hairline": "#D9D5CC",
+    "champagne_gold": "#C5B48E",
+    "sage": "#AEB3A1",
+    "clover": "#7D8276",
+    "line_width": "1 px",
+    "corner_radius": "4–8 px",
+    "avoid": [
+      "full-screen saturated green",
+      "thick neon outlines",
+      "large filled cartoon characters",
+      "random particle noise",
+      "high-frequency blinking",
+      "mobile-app style cards"
+    ]
+  },
+  "layout": {
+    "outer_margin": 8,
+    "top_status_bar": {
+      "x": 10,
+      "y": 8,
+      "w": 220,
+      "h": 20
+    },
+    "main_content": {
+      "x": 12,
+      "y": 34,
+      "w": 216,
+      "h": 166
+    },
+    "bottom_action_bar": {
+      "x": 10,
+      "y": 207,
+      "w": 220,
+      "h": 25
+    },
+    "center": [
+      120,
+      116
+    ],
+    "primary_orbit_radius": 64,
+    "right_wheel_hint": {
+      "x": 230,
+      "y": 98,
+      "w": 8,
+      "h": 38
+    }
+  },
+  "typography": {
+    "style": "pixel mono / geometric sans",
+    "small": "6x8 px",
+    "medium": "8x12 px",
+    "large": "12x16 px",
+    "rules": [
+      "Use uppercase for short English labels only",
+      "One screen should have only one visual headline",
+      "Use no more than two font sizes per screen",
+      "Avoid anti-aliased fonts when the panel is physically small"
+    ]
+  },
+  "input": {
+    "rotate": "selection, tuning, orbit speed, energy accumulation",
+    "short_press": "confirm, capture, lock, save",
+    "long_press": "back, cancel, system menu",
+    "feedback": {
+      "rotate_slow": "one orbit point moves; thin edge cursor",
+      "rotate_medium": "two orbit points move; energy ticks appear",
+      "rotate_fast": "three orbit points move; orbit spacing compresses",
+      "short_press": "80–120 ms border lock flash",
+      "long_press": "1.2 s segmented circular progress"
+    }
+  },
+  "screens": [
+    "Boot",
+    "Home",
+    "Mode Select",
+    "Quick Ask",
+    "Orbit Capture",
+    "Triad",
+    "Mood Compass",
+    "Daily Guide",
+    "Reveal",
+    "History",
+    "Settings",
+    "System Menu"
+  ],
+  "implementation_constraints": [
+    "Draw cat and clover with primitives or 1-bit sprites, not large PNGs",
+    "Keep most of the background unchanged between frames",
+    "Use deterministic motion; do not randomize stars each frame",
+    "Update only the center region if RAM is limited",
+    "Prefer 1-bit masks with palette recoloring for icons",
+    "Do not use alpha blending on MCU unless already supported"
+  ]
+}

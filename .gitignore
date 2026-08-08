@@ -1,0 +1,59 @@
+# ============================================================================
+# Oracle OS — .gitignore
+#
+# 原则:只忽略"本项目自己生成、可一键重建"的东西。
+# 厂家示例代码 / 数据手册 / 原理图 / 字体源 全部保留
+#   —— 那是硬件开发和字模生成的依据,丢了就没法查引脚、初始化序列,也加不了新汉字。
+# 所以这里所有规则都写成"带路径的",不用 *.bin / *.o / *.log 这种全局规则
+#   —— 全局规则会顺手把厂家 Keil 工程的 .hex/.lst/.M51 输出也排除掉。
+# ============================================================================
+
+# ---- 主固件:ESP-IDF 编译产物(279MB,idf.py build 可完整重建) ----
+firmware/esp32s3_knob_idf/build/
+
+# ESP-IDF 约定:只提交 sdkconfig.defaults,sdkconfig 由它生成。
+# ⚠ 以后用 idf.py menuconfig 改了配置,记得把改动补写进 sdkconfig.defaults,
+#    否则别人 clone 下来构建出的固件和你手上的不一致。
+firmware/esp32s3_knob_idf/sdkconfig
+firmware/esp32s3_knob_idf/sdkconfig.old
+
+# ---- 固件构建/诊断的临时输出 ----
+firmware/esp32s3_knob_idf/diag_build_stdout.log
+firmware/esp32s3_knob_idf/diag_build_stderr.log
+
+# ---- 工具链依赖与缓存(package.json 已提交,npm i 可重建) ----
+firmware/esp32s3_knob_idf/tools/node_modules/
+firmware/esp32s3_knob_idf/tools/__pycache__/
+
+# 注意:tools/fonts/ 里的 .ttf 必须提交,不能忽略。
+#      gen_fonts.js 从那里读 fusion-pixel-12px-proportional-zh_hans.ttf 生成
+#      ui/fonts/han_16.c、han_24.c。没有它就无法给界面加新汉字。
+
+# ---- 精灵图/布局的一次性核对图(build_cat_sprites.py 每次跑都会重出) ----
+firmware/esp32s3_knob_idf/tools/*_check.png
+
+# ---- 硬件上电验证工程:PlatformIO 编译产物 ----
+hardware/bringup-tests/*/.pio/
+hardware/bringup-tests/*/build/
+
+# ---- 字体源压缩包(74MB 下载物) ----
+# 实际用的 .ttf 已复制进 tools/fonts/ 并提交,这里的 zip/解压目录只是下载中转。
+tmp/
+
+# ---- 实机拍照/调试截图(21MB,hash 命名的一次性素材) ----
+test/
+
+# ---- 退役代码暂存区 ----
+# 已被新版取代、但暂时留在本地以备回溯的文件。放在这里既不参与编译,也不进仓库。
+# 真正的历史回溯请用 git(见首次提交),这个目录只是手边的一份副本。
+_attic/
+
+# ---- 本机个人配置 ----
+.claude/
+
+# ---- 操作系统垃圾文件 ----
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
